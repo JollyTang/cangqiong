@@ -11,3 +11,9 @@ sky:
     access-key-secret: XNyvKwbrOsJoOeAVQXuUhZ5Qtprzvl
     access-key-id: LTAI5tNQbkaNeaPzuBNxaT8n
     bucket-name: jollytang
+  redis:
+    host: localhost
+    port: 6379
+  wechat:
+    appid: wx991382aba31a7458
+    secret: c4c4b87f8f050c43caea4b7d40a4f7e7
