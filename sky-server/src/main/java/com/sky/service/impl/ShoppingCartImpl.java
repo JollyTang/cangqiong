@@ -69,4 +69,12 @@ public class ShoppingCartImpl implements ShoppingCartService {
 
 
     }
+
+    @Override
+    public List<ShoppingCart> showShoppingCart() {
+        ShoppingCart shoppingCart = new ShoppingCart();
+        shoppingCart.setUserId(BaseContext.getCurrentId());
+        List<ShoppingCart> list = shoppingCartMapper.list(shoppingCart);
+        return list;
+    }
 }
