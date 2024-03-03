@@ -27,6 +27,16 @@ public interface DishService {
      */
     List<Dish> list(Long categoryId);
 
+
+    /**
+     * 启用、禁用分类
+     * @param status
+     * @param id
+     */
+    void startOrStop(Integer status, Long id);
+
+
+
     /**
      * 条件查询菜品和口味
      * @param dish
