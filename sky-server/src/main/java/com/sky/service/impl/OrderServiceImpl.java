@@ -1,5 +1,6 @@
 package com.sky.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.xiaoymin.knife4j.core.util.CollectionUtils;
@@ -24,6 +25,7 @@ import com.sky.utils.WeChatPayUtil;
 import com.sky.vo.OrderStatisticsVO;
 import com.sky.vo.OrderSubmitVO;
 import com.sky.vo.OrderVO;
+import com.sky.websocket.WebSocketServer;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -36,12 +38,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 public class OrderServiceImpl implements OrderService {
+
+    @Autowired
+    private WebSocketServer webSocketServer;
 
     @Autowired
     private WeChatPayUtil weChatPayUtil;
@@ -446,6 +452,25 @@ public class OrderServiceImpl implements OrderService {
         orders.setDeliveryTime(LocalDateTime.now());
 
         orderMapper.update(orders);
+    }
+
+    @Override
+    public void reminder(Long id) {
+//        // 根据id查询订单
+//        Orders ordersDB = orderMapper.getById(id);
+//
+//        // 校验订单是否存在，并且状态为4
+//        if (ordersDB == null) {
+//            throw new OrderBusinessException(MessageConstant.ORDER_STATUS_ERROR);
+//        }
+
+        HashMap map = new HashMap();
+        map.put("type",2);
+        map.put("orderId",id);
+//        map.put("content","订单号：" + ordersDB.getNumber());
+        String json = JSON.toJSONString(map);
+        webSocketServer.sendToAllClient(json);
+
     }
 
 }
